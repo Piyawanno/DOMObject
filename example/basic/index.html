@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<title>Simple DOMObject Example</title>
+		<script src="./mustache.js"></script>
+		<script src="./DOMObject.js"></script>
+		<script>
+			const PERSONAL_LIST_TEMPLATE = `<li><a rel="personalLink" href="#">{{firstName}} {{lastName}}</a></li>`;
+			let Personal = function(id, firstName, lastName, address){
+				this.id = id;
+				this.firstName = firstName;
+				this.lastName = lastName;
+				this.address = address;
+			}
+			
+			let PersonalManagement = function(){
+				let object = this;
+
+				this.personals = [
+					new Personal(1, "Peter", "Parker", "Aunt May apartment"),
+					new Personal(2, "Scott", "Lang", "Pym laboratory"),
+					new Personal(3, "Steve", "Roger", "Military barrack"),
+					new Personal(4, "Tony", "Stark", "Sea side villa"),
+				];
+
+				this.init = function(){
+					let list = document.createElement('ul');
+					for(let personal of object.personals){
+						let item = new DOMObject(PERSONAL_LIST_TEMPLATE, personal);
+						/// We can access element of DOMObject by reference to
+						/// rel attribute defined in tag. In this case, <a> has
+						/// rel="personalLink", so we can access item.dom.personalLink.
+						/// This is the only magic, which DOMObject has.
+						/// Other thing, you can get it from vanilla JS, CSS and DOM.
+						item.dom.personalLink.onclick = function(){
+							alert(personal.address);
+							return false;
+						};
+						list.appendChild(item.html);
+					}
+					let note = document.getElementById("note");
+					note.style.display = "none";
+					let body = document.getElementsByTagName("body")[0];
+					body.appendChild(list);
+				}
+			}
+
+			let manage = new PersonalManagement();
+			document.addEventListener("DOMContentLoaded", function(event) {
+				manage.init();				
+			}); 
+		</script>
+	</head>
+	<body>
+		<p id="note">Note : If you see this. Copy DOMObject.js and mushtache.js to this folder.</p>
+	</body>
+</html>
