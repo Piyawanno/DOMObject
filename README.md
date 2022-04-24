@@ -1,10 +1,10 @@
-#DOMObject
+# DOMObject
 
 DOMObject is a small JS library for developing Web-UI component based
 single page application. It uses [Mustache](https://github.com/janl/mustache.js/)
 as a template-engine.
 
-##STEP
+## STEP
 DOMObject does nothing but simplifies the access of DOM-element, which
 can be created with any template-engine, in our case with Mustache.
 If you are familiar with other template engine, download the code, edit it,
