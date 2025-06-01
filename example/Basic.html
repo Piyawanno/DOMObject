@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<title>Basic of DOMObject</title>
+		<script src="mustache.min.js"></script>
+		<script src="DOMObject.js"></script>
+		<link rel="stylesheet" type="text/css" href="Base.css">
+		<template id="ContentNote">
+			<p>
+				This is a content of the paragraph, which is defined as template.
+			</p>
+		</template>
+		<script>
+			function runDOMObject(){
+				let note = new DOMObject("ContentNote");
+				let body = document.getElementsByTagName("body")[0];
+				note.html.style["cursor"] = "pointer";
+				note.html.onclick = (event) => {
+					note.html.hide();
+				}
+				body.appendChild(note.html);
+			}
+
+			document.addEventListener("DOMContentLoaded", function(event) {
+				runDOMObject();
+			}); 
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
