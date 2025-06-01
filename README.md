@@ -21,7 +21,9 @@ STEP consists of the followed components :
 STEP is framework independent. You can apply STEP also without DOMObject library.
 See example for implementation with STEP in a practical way.
 
-Unlike popular Web-UI frameworks nowaday (2022), STEP is data centric
-way of thinking with separation of duty so called cohision and not
-UI centric and everything at one place. It is like, we move from PHP
-spaghetti code (PHP volk, I am sorry for that.) to MVC framework.
+Unlike popular Web-UI frameworks nowadays (2022), STEP is data centric
+way of thinking with separation of duty so called cohesion and not
+UI centric and everything at one place. It is like, we move from
+spaghetti code to MVC framework.
+
+## 

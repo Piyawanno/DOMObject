@@ -1,26 +1,13 @@
 let LOCALE = {};
 
-let DOMObject = function(template, data, isList) {
-	let object = this;
-	
-	this.html;
-	this.dom;
-	this.data;
-	this.requireTag = {};
-	this.localizeTag = [];
+class DOMObject{
+	constructor(template, data, isList){
+		this.html;
+		this.dom;
+		this.data;
+		this.requireTag = {};
+		this.localizeTag = [];
 
-	this.localize = function() {
-		return function(val, render) {
-			if (LOCALE[val] == undefined) {
-				setTextLocale(val);
-				return val;
-			} else {
-				return LOCALE[val];
-			}
-		};
-	}
-
-	this.init = function(template, data, isList) {
 		if (data == undefined) data = {};
 		this.data = data;
 		data.localize = object.localize;
@@ -32,7 +19,18 @@ let DOMObject = function(template, data, isList) {
 		object.renderLocalize();
 	}
 
-	this.createElement = function(text) {
+	localize() {
+		return function(val, render) {
+			if (LOCALE[val] == undefined) {
+				setTextLocale(val);
+				return val;
+			} else {
+				return LOCALE[val];
+			}
+		};
+	}
+
+	createElement(text){
 		text = text.trim();
 		if (text.indexOf('<tr') == 0) {
 			const table = document.createElement('table');
@@ -45,13 +43,13 @@ let DOMObject = function(template, data, isList) {
 		}
 	}
 
-	this.getObject = function(dom) {
+	getObject(dom){
 		let tag = {}
 		this.walk(dom, tag);
 		return tag;
 	}
 
-	this.createObjectTree = function(tag, rel, node) {
+	createObjectTree(tag, rel, node){
 		let relList = rel.split('.');
 		if (relList.length > 1) {
 			let currentTag = tag;
@@ -68,7 +66,7 @@ let DOMObject = function(template, data, isList) {
 		return tag;
 	}
 
-	this.walk = function(node, tag) {
+	walk(node, tag){
 		let rel = node.getAttribute('rel');
 		if (rel != null) {
 			object.createObjectTree(tag, rel, node);
@@ -84,7 +82,7 @@ let DOMObject = function(template, data, isList) {
 		}
 	}
 
-	this.setRequireTag = function(atrribute, tag) {
+	setRequireTag(atrribute, tag){
 		if (tag.getAttribute('required') == null) return;
 		if (tag.getAttribute('required').length > 0) {
 			let name = tag.getAttribute('required');
@@ -97,12 +95,12 @@ let DOMObject = function(template, data, isList) {
 		}
 	}
 
-	this.setLocalizeTag = function(tag) {
+	setLocalizeTag(tag){
 		if (tag.getAttribute('localize') == null) return;
 		object.localizeTag.push(tag);
 	}
 
-	this.renderLocalize = function() {
+	renderLocalize(){
 		let texts = [];
 		for (let i in object.localizeTag) {
 			let tag = object.localizeTag[i];
@@ -139,48 +137,51 @@ let DOMObject = function(template, data, isList) {
 		}
 	}
 
-	this.initAttributeEvent = function(atrribute, tag) {
-		object.setRequireTag(atrribute, tag);
-		object.initTagEvent(atrribute, tag);
+	initAttributeEvent(attribute, tag){
+		object.setRequireTag(attribute, tag);
+		object.initTagEvent(attribute, tag);
 		if (object.data == null || object.data == undefined || Object.keys(object.data).length == 0) return;
 		let data = object.data;
-		if (typeof(atrribute) == 'object') {
-			for (let i=0; i < atrribute.length; i++) {
-				if (data[atrribute[i]] == undefined) return;
-				if (i == atrribute.length-1) {
-					atrribute = atrribute[i];
+		if (typeof(attribute) == 'object') {
+			for (let i=0; i < attribute.length; i++) {
+				if (data[attribute[i]] == undefined) return;
+				if (i == attribute.length-1) {
+					attribute = attribute[i];
 					break;
-				} else data = data[atrribute[i]];
+				} else data = data[attribute[i]];
 			}
 		}
-		if (data[atrribute] == undefined) return;
+		if (data[attribute] == undefined) return;
 		if (data._value == undefined) data._value = {};
-		data._value[atrribute] = data[atrribute];
+		data._value[attribute] = data[attribute];
 		if (data._tags == undefined) data._tags = {};
-		if (data._tags[atrribute] == undefined) data._tags[atrribute] = []
-		if (!data._tags[atrribute].includes(tag)) data._tags[atrribute].push(tag);
+		if (data._tags[attribute] == undefined) data._tags[attribute] = []
+		if (!data._tags[attribute].includes(tag)) data._tags[attribute].push(tag);
 		
-		Object.defineProperty(data, atrribute, {
+
+		let object = this;
+		Object.defineProperty(data, attribute, {
 			get: function(){
-				return this._value[atrribute];
+				return this._value[attribute];
 			},
 			set: function(value){
-				this._value[atrribute] = value;
-				object.setValueFromTag(data._tags[atrribute], this._value[atrribute]);
+				this._value[attribute] = value;
+				object.setValueFromTag(data._tags[attribute], this._value[attribute]);
 			}
 		});
 
 		tag.onchange = function(event) {
-			console.log(this, data[atrribute]);
+			console.log(this, data[attribute]);
 		}
 	}
 	
 
-	this.getData = function(isShowOnly, isShowError) {
+	getData(isShowOnly, isShowError) {
 		if (isShowOnly == undefined) isShowOnly = false;
 		if (isShowError == undefined) isShowError = true;
 		let isPass = true;
 		let data = {};
+		let object = this;
 		for (let i in object.requireTag) {
 			if (object.requireTag[i].tag.offsetParent == null && !Array.isArray(object.requireTag[i].tag)) {
 				object.requireTag[i].tag.classList.remove('error');
@@ -260,10 +261,11 @@ let DOMObject = function(template, data, isList) {
 		return {isPass, data}
 	}
 
-	this.initTagEvent = function(atrribute, tag) {
+	initTagEvent(attribute, tag) {
+		let object = this;
 		if (tag.tagName == 'LABEL') {
-			if (atrribute.indexOf('Label') != -1) {
-				let inputKey = atrribute.replace('Label', '');
+			if (attribute.indexOf('Label') != -1) {
+				let inputKey = attribute.replace('Label', '');
 				tag.onclick = function() {
 					if (object.dom[inputKey] != undefined) {
 						object.dom[inputKey].click();
@@ -367,7 +369,7 @@ let DOMObject = function(template, data, isList) {
 		}
 	}
 
-	this.getValueFromTag = function(tag) {
+	getValueFromTag(tag){
 		if (tag.tagName == "DIV") {
 			return tag.innerHTML;
 		} else if (tag.tagName == "SELECT") {
@@ -388,14 +390,14 @@ let DOMObject = function(template, data, isList) {
 		} 
 	}
 
-	this.setValueFromTag = function(tags, value) {
+	setValueFromTag(tags, value){
 		for (let i in tags) {
 			let tag = tags[i];
-			object.setTagValue(tag, value);
+			this.setTagValue(tag, value);
 		}
 	}
 
-	this.setTagValue = function(tag, value) {
+	setTagValue(tag, value){
 		if (tag.tagName == "DIV") {
 			tag.innerHTML = value;
 		} else if (tag.tagName == "SELECT") {
@@ -409,7 +411,7 @@ let DOMObject = function(template, data, isList) {
 		}
 	}
 
-	this.resetTagValue = function(tag) {
+	resetTagValue(tag){
 		if (tag.tagName == "DIV") {
 			tag.innerHTML = '';
 		} else if (tag.tagName == "SELECT") {
@@ -425,11 +427,10 @@ let DOMObject = function(template, data, isList) {
 		}
 	}
 
-	this.setData = function(data) {
+	setData(data){
+		let object = this;
 		for (let i in data) {
 			if (object.dom[i] != undefined) object.setTagValue(object.dom[i], data[i]);
 		}
 	}
-
-	this.init(template, data, isList);
 }
