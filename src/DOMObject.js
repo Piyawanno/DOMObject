@@ -28,6 +28,10 @@ class DOMObject{
 		this.renderLocalize();
 	}
 
+	static getBody(){
+		return document.getElementsByTagName("body")[0];
+	}
+
 	localize() {
 		return function(val, render) {
 			if (LOCALE[val] == undefined) {
@@ -378,7 +382,6 @@ class DOMObject{
 		tag.getValue = function() {
 			return object.getValueFromTag(tag);
 		}
-		console.log(tag.hide);
 	}
 
 	getValueFromTag(tag){

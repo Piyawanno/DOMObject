@@ -20,7 +20,7 @@ as a template-engine.
 - **Fast**: DOMObject is based on vanilla JavaScript, hence, the performance of Web-Application
   developed with DOMObject is the highest performance achievable with JavaScript.
   Moreover, with OOAD and SOLID, the component created with DOMObject can be reused
-  without rerendering the entire tag and its children.
+  without rerendering, recreating or reentering the entire tag and its children.
 - **Play well with DOM & JavaScript**: DOMObject utilizes the power of
   [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model)
   and JavaScript, which is a power full default engine of all Web-Application.

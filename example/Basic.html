@@ -12,7 +12,7 @@
 		<script>
 			function runDOMObject(){
 				let note = new DOMObject("ContentNote");
-				let body = document.getElementsByTagName("body")[0];
+				let body = DOMObject.getBody();
 				note.html.style["cursor"] = "pointer";
 				note.html.onclick = (event) => {
 					note.html.hide();
