@@ -1,25 +1,31 @@
 # DOMObject
 
-DOMObject is a small JS library for developing Web-UI component based
+DOMObject is a small JavaScript library for developing Web-UI component based
 single page application. It uses [Mustache](https://github.com/janl/mustache.js/)
 as a template-engine.
 
 ## Why DOMObject?
 
-- DOMObject is a simple library with one class/one JavaScript file and can be
+- **Simple:**: DOMObject is a simple library with one class/one JavaScript file and can be
   directly used with any Web-Application by embedding it to HTML document.
   No extra front-end engine/server is needed.
-- DOMObject utilizes the power of
-  [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model)
-  and JavaScript, which is a power full default engine of all Web-Application.
-- With DOMObject, all HTML tags and elements in the document can be directly
+- **Direct**: With DOMObject, all HTML tags and elements in the document can be directly
   accessed, used and manipulated without complicated state management and/or
   element queries.
-- With DOMObject, a sophisticated feature rich Web-Application can be developed
+- **Rich**: With DOMObject, a sophisticated feature rich Web-Application can be developed
   under the concept of [OOAD](https://en.wikipedia.org/wiki/Object-oriented_analysis_and_design)
   and [SOLID](https://en.wikipedia.org/wiki/SOLID).
   Hence, the application developed with DOMObject trends to be modular, extensible and
   easy to maintain.
+- **Fast**: DOMObject is based on vanilla JavaScript, hence, the performance of Web-Application
+  developed with DOMObject is the highest performance achievable with JavaScript.
+  Moreover, with OOAD and SOLID, the component created with DOMObject can be reused
+  without rerendering the entire tag and its children.
+- **Play well with DOM & JavaScript**: DOMObject utilizes the power of
+  [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model)
+  and JavaScript, which is a power full default engine of all Web-Application.
+  Beside the templating syntax, the JavaScript developed with DOMObject doesn't
+  need any extra syntax or specialized environment.
 
 ## STEP
 DOMObject does nothing but simplifies the access of DOM-element, which
@@ -38,7 +44,7 @@ STEP consists of the followed components :
 STEP is framework independent. You can apply STEP also without DOMObject library.
 See example for implementation with STEP in a practical way.
 
-Unlike popular Web-UI frameworks nowadays (2022), STEP is data centric
+Unlike popular Web-UI frameworks nowadays, STEP is data centric
 way of thinking with separation of duty so called cohesion and not
 UI centric and everything at one place. It is like, we move from
 spaghetti code to MVC framework.
